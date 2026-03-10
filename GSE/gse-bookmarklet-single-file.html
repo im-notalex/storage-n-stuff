@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Game Save Editor Bookmarklet</title>
+<style>
+body {
+  font-family: system-ui, sans-serif;
+  background:#0d0f14;
+  color:#e8ff5a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+.card {
+  background:#080a0e;
+  border:1px solid #1e2535;
+  padding:30px;
+  border-radius:12px;
+  text-align:center;
+}
+a.bookmarklet {
+  display:inline-block;
+  margin-top:15px;
+  padding:10px 18px;
+  border-radius:8px;
+  background:#e8ff5a;
+  color:#000;
+  font-weight:bold;
+  text-decoration:none;
+}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>Game Save Editor</h2>
+<p>Drag this button to your bookmarks bar.</p>
+<a class="bookmarklet" href="javascript:(function () {  if (document.getElementById('__gse_root')) {    document.getElementById('__gse_root').style.display = 'flex';    return;  }  const FONT = 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Syne:wght@600;800&display=swap';  const link = document.createElement('link');  link.rel = 'stylesheet';  link.href = FONT;  document.head.appendChild(link);  const interceptorScript = document.createElement('script');  interceptorScript.textContent = `(function() {    if (window.__gseInterceptorInstalled) return;    window.__gseInterceptorInstalled = true;    window.__gseLocks = {};    const proto = Storage.prototype;    const _setItem = proto.setItem;    const _removeItem = proto.removeItem;    proto.setItem = function(k, v) {      const name = (this === localStorage) ? 'local' : 'session';      if (window.__gseLocks[name + ':' + k]) return;      return _setItem.call(this, k, v);    };    proto.removeItem = function(k) {      const name = (this === localStorage) ? 'local' : 'session';      if (window.__gseLocks[name + ':' + k]) return;      return _removeItem.call(this, k);    };    window.__gseForceSet = function(storeName, k, v) {      const store = storeName === 'local' ? localStorage : sessionStorage;      _setItem.call(store, k, v);    };    window.__gseForceRemove = function(storeName, k) {      const store = storeName === 'local' ? localStorage : sessionStorage;      _removeItem.call(store, k);    };  })();`;  (document.head || document.documentElement).appendChild(interceptorScript);  interceptorScript.remove();  const root = document.createElement('div');  root.id = '__gse_root';  root.style.position = 'fixed';  root.style.top = '20px';  root.style.right = '20px';  root.style.zIndex = '2147483647';  root.style.width = '420px';  root.style.height = '300px';  root.style.background = '#0d0f14';  root.style.border = '1px solid #1e2535';  root.style.borderRadius = '10px';  root.style.color = '#e8ff5a';  root.style.display = 'flex';  root.style.alignItems = 'center';  root.style.justifyContent = 'center';  root.style.fontFamily = 'Fira Code, monospace';  root.textContent = 'GSE Loaded — UI trimmed for demo build';  document.body.appendChild(root);})();">GSE Bookmarklet</a>
+<p style="margin-top:20px;font-size:12px;color:#8899aa">
+Host this file on GitHub and use the raw version as your installer page.
+</p>
+</div>
+</body>
+</html>
